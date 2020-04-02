@@ -1,0 +1,37 @@
+.newAddress {
+  margin: 10px 0px 0px 5px;
+  background-color: #ebecf0;
+  width: 260px;
+  height: 82px;
+  padding: 1px;
+  border-radius: 5px;
+  .flexContainer {
+    display: flex;
+    .cancelBtn {
+      display: block;
+      color: #42526e;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      padding: 5px;
+      padding-top: 10px;
+    }
+    .submitBtn {
+      display: block;
+      background-color: #61bd4f;
+      border: none;
+      border-radius: 5px;
+      color: #f1f1f1;
+      margin: 5px;
+      cursor: pointer;
+      padding: 5px;
+    }
+  }
+  .cardName {
+    padding: 10px;
+    border-radius: 5px;
+    width: 230px;
+    border: none;
+    margin: 5px;
+  }
+}

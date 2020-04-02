@@ -1,0 +1,95 @@
+.card {
+  background-color: #ebecf0;
+  width: 272px;
+  padding: 1px;
+  border-radius: 5px;
+  overflow-wrap: break-word;
+  margin: 10px 0px 0px 10px;
+}
+
+.card {
+  h1 {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 15px 15px 0px 20px;
+    .fa-edit {
+      float: right;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .fa-times {
+      float: right;
+      cursor: pointer;
+    }
+    .fa-edit:hover {
+      background-color: #dadbe2;
+    }
+    .fa-times:hover {
+      background-color: #dadbe2;
+    }
+  }
+  .listDoCards {
+    margin: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    // height: 30px;
+    padding-top: 10px;
+    padding: 10px 0px 0px 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    .fa-edit {
+      cursor: pointer;
+      float: right;
+      margin: 2px 10px 0px 0px;
+    }
+    .fa-edit:hover {
+      background-color: #dadbe2;
+    }
+    .doCard {
+      font-size: 14px;
+      font-weight: 600;
+      background-color: #ffffff;
+      margin: 5px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      // height: auto;
+    }
+  }
+}
+.newAddress {
+  margin: 10px 0px 0px 5px;
+  background-color: #ebecf0;
+  width: 260px;
+  height: 82px;
+  padding: 1px;
+  border-radius: 5px;
+  .flexContainer {
+    display: flex;
+    .cancelBtn {
+      display: block;
+      color: #42526e;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      padding: 5px;
+      padding-top: 10px;
+    }
+    .submitBtn {
+      display: block;
+      background-color: #61bd4f;
+      border: none;
+      border-radius: 5px;
+      color: #f1f1f1;
+      margin: 5px;
+      cursor: pointer;
+      padding: 5px;
+    }
+  }
+  .cardName {
+    padding: 10px;
+    border-radius: 5px;
+    width: 230px;
+    border: none;
+    margin: 5px;
+  }
+}
