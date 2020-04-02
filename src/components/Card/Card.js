@@ -12,6 +12,10 @@ export const Card = props => {
 
   const [dragState, setdragState] = useState(Number)
 
+  const [listInput, setlistInput] = useState('')
+
+  const [isListEditing, setisListEditing] = useState(false)
+
   const handleDragStart = (e, index) => {
     e.stopPropagation()
     console.log(index)
@@ -21,12 +25,6 @@ export const Card = props => {
   const handleDragEnter = (e, index) => {
     e.preventDefault()
     e.stopPropagation()
-
-    // function arrSwitch (firstNum,index) {
-    //   let temp = addressBook[firstNum];
-    //      addressBook[firstNum] = addressBook[index];
-    //      addressBook[index] = temp;
-    // }
   }
   const handleDragLeave = (e, index) => {
     e.preventDefault()
@@ -136,13 +134,60 @@ export const Card = props => {
     setisCardEditing(false)
   }
 
+  const toggleListEdit = () => {
+    props.list.isEditing = true
+    setisListEditing(true)
+  }
+
+  const inputListHandler = event => {
+    setlistInput(event.target.value)
+  }
+  const formListSubmitHandler = async event => {
+    event.preventDefault()
+    const listClone = { ...props.list }
+    listClone.listName = listInput
+    listClone.isEditing = false
+    const response = await fetch(
+      'http://localhost:4000/lists/' + props.list.id,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(listClone)
+      }
+    )
+    console.log(response)
+    setisListEditing(false)
+    const listsClone = [...props.lists]
+    listsClone[props.listIndex] = listClone
+    console.log(listsClone)
+    props.setlists(listsClone)
+  }
   return (
-    <div className={classes.card}>
-      <h1>
-        {props.list.listName}
-        <i className='fas fa-edit'></i>
-        <i className='fas fa-times' onClick={listDel}></i>
-      </h1>
+    <div className={classes.card} draggable>
+      {!props.list.isEditing ? (
+        <h1>
+          {props.list.listName}
+          <i className='fas fa-edit' onClick={toggleListEdit}></i>
+          <i className='fas fa-times' onClick={listDel}></i>
+        </h1>
+      ) : (
+        <form
+          action=''
+          // className={classes.newAddress}
+          onSubmit={event => formListSubmitHandler(event)}
+        >
+          <input
+            className={classes.listName}
+            name='listName'
+            type='text'
+            placeholder='enter new card name'
+            onInput={inputListHandler}
+            defaultValue={props.list.listName}
+          />
+        </form>
+      )}
 
       {props.list.cards.map((card, index) =>
         !card.isEditing ? (

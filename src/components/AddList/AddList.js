@@ -34,7 +34,7 @@ export const AddList = props => {
   }
 
   return (
-    <form action='' className={classes.newAddress} onSubmit={formSubmitHandler}>
+    <form action='' className={classes.newList} onSubmit={formSubmitHandler}>
       <input
         className={classes.listName}
         name='listName'

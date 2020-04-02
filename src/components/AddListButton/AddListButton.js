@@ -8,8 +8,10 @@ export const AddListButton = listState => {
   }
 
   return (
-    <button onClick={toggleFormHandler} className={classes.addAnotherList}>
-      + Add another list
-    </button>
+    <div>
+      <button onClick={toggleFormHandler} className={classes.addAnotherList}>
+        + Add another list
+      </button>
+    </div>
   )
 }
