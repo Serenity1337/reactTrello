@@ -1,0 +1,18 @@
+.flex {
+  display: flex;
+  height: 40px;
+  background-color: #026aa7;
+  justify-content: space-between;
+}
+.logOut {
+  background-color: #3588b9;
+  margin: 5px 5px;
+  text-align: center;
+  padding: 5px 15px 0px 15px;
+  color: #ffffff;
+  cursor: pointer;
+}
+.userName {
+  margin: 5px 5px;
+  color: #ffffff;
+}

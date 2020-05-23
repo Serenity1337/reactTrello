@@ -3,12 +3,14 @@ import classes from './Card.module.scss'
 import AddCardButton from '../AddCardButton'
 import AddCard from '../AddCard'
 
-export const Card = props => {
+export const Card = (props) => {
   const [cardFormState, setcardFormState] = useState(false)
 
   const [isCardEditing, setisCardEditing] = useState(false)
 
   const [cardEditState, setcardEditState] = useState('')
+
+  const [startList, setstartList] = useState(Number)
 
   const [dragState, setdragState] = useState(Number)
 
@@ -16,10 +18,18 @@ export const Card = props => {
 
   const [isListEditing, setisListEditing] = useState(false)
 
+  const [dash, setdash] = useState({})
+
+  const [card, setcard] = useState({})
+
+  useEffect(() => {
+    setdash(props.dash.dash)
+  }, [])
   const handleDragStart = (e, index) => {
     e.stopPropagation()
-    console.log(index)
-    setdragState(index)
+    const listObj = { ...props.list }
+    props.setstartListIndex(props.listIndex)
+    props.setstartCardIndex(index)
   }
 
   const handleDragEnter = (e, index) => {
@@ -38,39 +48,51 @@ export const Card = props => {
   const handleDrop = async (e, index) => {
     e.preventDefault()
     e.stopPropagation()
-    const listObj = { ...props.list }
-    const cardsArr = [...listObj.cards]
-    let temp = cardsArr[dragState]
-    cardsArr[dragState] = cardsArr[index]
-    cardsArr[index] = temp
-    listObj.cards = cardsArr
-    console.log(listObj)
-
+    const dashClone = { ...props.dash.dash }
     const testObj = [...props.lists]
+    const listObj = { ...props.list }
 
-    testObj[props.listIndex].cards = cardsArr
+    const card = testObj[props.startListIndex].cards[props.startCardIndex]
+
+    testObj[props.startListIndex].cards.splice(props.startCardIndex, 1)
+    testObj[props.listIndex].cards.splice(index, 0, card)
+    console.log(testObj)
+
+    dashClone.lists = testObj
     props.setlists(testObj)
-    const response = await fetch('http://localhost:4000/lists/' + listObj.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(listObj)
-    })
+
+    const response = await fetch(
+      'http://localhost:4000/dashboards/' + props.dash.dash.id,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dashClone),
+      }
+    )
     console.log(response)
   }
 
-  const delCard = async card => {
+  const delCard = async (card) => {
+    const dashClone = { ...props.dash.dash }
+    console.log(dashClone)
     const listObj = { ...props.list }
-    const cardsArr = listObj.cards.filter(cardEntry => cardEntry.id !== card.id)
+    const cardsArr = listObj.cards.filter(
+      (cardEntry) => cardEntry.id !== card.id
+    )
     listObj.cards = cardsArr
-    const response = await fetch('http://localhost:4000/lists/' + listObj.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(listObj)
-    })
+    dashClone.lists[props.listIndex] = listObj
+    const response = await fetch(
+      'http://localhost:4000/dashboards/' + props.dash.dash.id,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dashClone),
+      }
+    )
     console.log(response)
     const testObj = [...props.lists]
 
@@ -80,56 +102,60 @@ export const Card = props => {
   }
 
   const listDel = async () => {
+    const dashCopy = { ...props.dash.dash }
     const listsCopy = [...props.lists]
     const listsArr = listsCopy.filter(
-      listEntry => props.list.id !== listEntry.id
+      (listEntry) => props.list.id !== listEntry.id
     )
-    console.log(props)
+    dashCopy.lists = listsArr
     const response = await fetch(
-      'http://localhost:4000/lists/' + props.list.id,
+      'http://localhost:4000/dashboards/' + props.dash.dash.id,
       {
-        method: 'DELETE',
+        method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(listsArr)
+        body: JSON.stringify(dashCopy),
       }
     )
     console.log(response)
     props.setlists(listsArr)
   }
 
-  const toggleEdit = card => {
+  const toggleEdit = (card) => {
     card.isEditing = true
     setisCardEditing(true)
   }
 
   const formSubmitHandler = async (event, card, index) => {
     event.preventDefault()
+    const dashClone = { ...props.dash.dash }
+
     const listClone = { ...props.list }
     const cardsClone = [...listClone.cards]
     cardsClone[index].cardName = cardEditState
     cardsClone[index].isEditing = false
     listClone.cards = cardsClone
+    dashClone.lists[props.listIndex] = listClone
     const response = await fetch(
-      'http://localhost:4000/lists/' + props.list.id,
+      'http://localhost:4000/dashboards/' + props.dash.dash.id,
       {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(listClone)
+        body: JSON.stringify(dashClone),
       }
     )
     console.log(response)
     setisCardEditing(false)
   }
 
-  const inputHandler = event => {
+  const inputHandler = (event) => {
     setcardEditState(event.target.value)
   }
 
-  const toggleFormHandler = card => {
+  const toggleFormHandler = (card) => {
     card.isEditing = false
     setisCardEditing(false)
   }
@@ -139,26 +165,30 @@ export const Card = props => {
     setisListEditing(true)
   }
 
-  const inputListHandler = event => {
+  const inputListHandler = (event) => {
     setlistInput(event.target.value)
   }
-  const formListSubmitHandler = async event => {
+  const formListSubmitHandler = async (event) => {
     event.preventDefault()
-    const listClone = { ...props.list }
-    listClone.listName = listInput
-    listClone.isEditing = false
+    const dashCopy = { ...props.dash.dash }
+
+    dashCopy.lists[props.listIndex].listName = listInput
+    dashCopy.lists[props.listIndex].isEditing = false
     const response = await fetch(
-      'http://localhost:4000/lists/' + props.list.id,
+      'http://localhost:4000/dashboards/' + props.dash.dash.id,
       {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(listClone)
+        body: JSON.stringify(dashCopy),
       }
     )
     console.log(response)
     setisListEditing(false)
+    const listClone = { ...props.list }
+    listClone.listName = listInput
+    listClone.isEditing = false
     const listsClone = [...props.lists]
     listsClone[props.listIndex] = listClone
     console.log(listsClone)
@@ -173,11 +203,7 @@ export const Card = props => {
           <i className='fas fa-times' onClick={listDel}></i>
         </h1>
       ) : (
-        <form
-          action=''
-          // className={classes.newAddress}
-          onSubmit={event => formListSubmitHandler(event)}
-        >
+        <form action='' onSubmit={(event) => formListSubmitHandler(event)}>
           <input
             className={classes.listName}
             name='listName'
@@ -195,11 +221,11 @@ export const Card = props => {
             className={classes.listDoCards}
             key={card.id}
             draggable
-            onDragOver={e => handleDragOver(e, index)}
-            onDragEnter={e => handleDragEnter(e, index)}
-            onDragLeave={e => handleDragLeave(e, index)}
-            onDrop={e => handleDrop(e, index)}
-            onDragStart={e => handleDragStart(e, index)}
+            onDragOver={(e) => handleDragOver(e, index)}
+            onDragEnter={(e) => handleDragEnter(e, index)}
+            onDragLeave={(e) => handleDragLeave(e, index)}
+            onDrop={(e) => handleDrop(e, index)}
+            onDragStart={(e) => handleDragStart(e, index)}
           >
             <div className={classes.doCard}>
               {' '}
@@ -214,7 +240,7 @@ export const Card = props => {
           <form
             action=''
             className={classes.newAddress}
-            onSubmit={event => formSubmitHandler(event, card, index)}
+            onSubmit={(event) => formSubmitHandler(event, card, index)}
             key={card.id}
           >
             <input
@@ -248,6 +274,7 @@ export const Card = props => {
           lists={props.lists}
           setlists={props.setlists}
           listIndex={props.listIndex}
+          dash={dash}
         ></AddCard>
       )}
     </div>

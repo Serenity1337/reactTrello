@@ -2,35 +2,37 @@ import React, { useState } from 'react'
 import classes from './AddCard.module.scss'
 const { random } = require('faker')
 
-export const AddCard = props => {
+export const AddCard = (props) => {
   const toggleFormHandler = () => {
     props.setcardFormState(false)
   }
 
   const [cardState, setcardState] = useState({})
 
-  const inputHandler = event => {
+  const inputHandler = (event) => {
     setcardState({
       id: random.uuid(),
       cardName: event.target.value,
-      isEditing: false
+      isEditing: false,
     })
   }
 
-  const formSubmitHandler = async event => {
+  const formSubmitHandler = async (event) => {
     event.preventDefault()
+    const dashClone = { ...props.dash }
     const listClone = { ...props.list }
     listClone.cards.push(cardState)
     console.log()
     event.target.elements.cardName.value = ''
+    dashClone.lists[props.listIndex] = listClone
     const response = await fetch(
-      'http://localhost:4000/lists/' + props.list.id,
+      'http://localhost:4000/dashboards/' + props.dash.id,
       {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(listClone)
+        body: JSON.stringify(dashClone),
       }
     )
     const listsClone = [...props.lists]
@@ -40,14 +42,14 @@ export const AddCard = props => {
     setcardState({
       id: random.uuid(),
       cardName: '',
-      isEditing: false
+      isEditing: false,
     })
   }
   return (
     <form
       action=''
       className={classes.newAddress}
-      onSubmit={event => formSubmitHandler(event)}
+      onSubmit={(event) => formSubmitHandler(event)}
     >
       <input
         className={classes.cardName}

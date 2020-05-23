@@ -1,0 +1,77 @@
+.boardsContainer {
+  display: flex;
+  .createBoard {
+    background-color: #e7e9ed;
+    width: 120px;
+    padding: 30px 25px;
+    cursor: pointer;
+    margin: 20px;
+  }
+  .dashboard {
+    background-image: url('../../assets/images/bg-image.jpg');
+    width: 120px;
+    padding: 30px 25px;
+    cursor: pointer;
+    margin: 20px;
+    .dashTitle {
+      color: #ffffff;
+    }
+  }
+}
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+  cursor: pointer;
+}
+.form {
+  width: 100%;
+  margin: 10px auto 0px auto;
+  position: absolute;
+  top: 50px;
+  left: 500px;
+  .inputWrapper {
+    display: flex;
+    height: 100px;
+    width: 250px;
+    background-image: url('../../assets/images/bg-image.jpg');
+
+    .boardInput {
+      padding: 2px 8px;
+      height: 20px;
+      margin: 10px;
+      border: none;
+      background: none;
+      color: #ffffff;
+      outline: none;
+    }
+    .cancelButton {
+      font-size: 20px;
+      margin: 8px 0px 0px 40px;
+      color: #ffffff;
+    }
+    .boardInput::placeholder {
+      color: #ffffff;
+    }
+    .boardInput:focus {
+      background-color: #aeb1b2;
+      background: rgba(0.5, 0, 0, 0.4);
+      border-radius: 5px;
+    }
+  }
+  .createBtn {
+    padding: 10px;
+    background-color: #ffffff;
+    width: 100px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: center;
+    cursor: pointer;
+  }
+}

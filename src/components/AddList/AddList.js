@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import classes from './AddList.module.scss'
+import { Dashboards } from '../../Pages/Dashboards/Dashboards'
 const { random } = require('faker')
 
-export const AddList = props => {
+export const AddList = (props) => {
   const toggleFormHandler = () => {
     props.settoggleListForm(false)
   }
@@ -10,27 +11,34 @@ export const AddList = props => {
   const [formState, setformState] = useState({})
   const [submitState, setsubmitState] = useState(false)
 
-  const inputHandler = event => {
+  const inputHandler = (event) => {
     setformState({
       id: random.uuid(),
       listName: event.target.value,
       isEditing: false,
-      cards: []
+      cards: [],
     })
   }
 
-  const formSubmitHandler = async event => {
+  const formSubmitHandler = async (event) => {
     event.preventDefault()
     event.target.elements.listName.value = ''
-    const response = await fetch('http://localhost:4000/lists', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formState)
-    })
+    const dashCopy = { ...props.dash.dash }
+    dashCopy.lists.push(formState)
+    console.log(dashCopy)
+    const response = await fetch(
+      `http://localhost:4000/dashboards/` + props.dash.dash.id,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dashCopy),
+      }
+    )
     console.log(response)
-    props.setlists([...props.lists, formState])
+
+    props.setlists([...dashCopy.lists])
   }
 
   return (

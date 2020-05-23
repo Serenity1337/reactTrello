@@ -5,12 +5,12 @@ generateLists = () =>
     id: random.uuid(),
     listName: random.words(5),
     cards: [...Array(5)].map(() => ({
-      cardName: random.words(10)
-    }))
+      cardName: random.words(10),
+    })),
   }))
 
 module.exports = () => {
-  const lists = { lists: generateLists() }
-  // fs.writeFileSync('./db.json', JSON.stringify(lists, null, 2))
+  const lists = { lists: [], users: [], dashboards: [] }
+  fs.writeFileSync('./db.json', JSON.stringify(lists, null, 2))
   return lists
 }

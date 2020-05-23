@@ -1,62 +1,207 @@
 {
   "lists": [
     {
-      "id": "f073813a-9bb2-43a5-ac21-2999c7f40d77",
+      "id": "1ae9c269-4114-4b4c-9ccb-daf58acd6e71",
+      "listName": "asa213",
+      "isEditing": false,
+      "cards": []
+    },
+    {
+      "id": "b19ceaa8-939e-4c63-ac2e-838505caa245",
+      "listName": "12312dsad",
+      "isEditing": false,
+      "cards": []
+    },
+    {
+      "id": "a7fa607b-20eb-404b-ac06-6ffc7525c4bf",
+      "listName": "asa213",
+      "isEditing": false,
+      "cards": []
+    },
+    {
+      "id": "ac489778-5f52-4d2a-a8d7-31b5855e8aea",
+      "listName": "asdasd",
+      "isEditing": false,
+      "cards": []
+    },
+    {
+      "id": "003d03f4-8e84-41c2-b083-f96bddaf4386",
+      "listName": "asa213",
+      "isEditing": false,
+      "cards": []
+    },
+    {
+      "id": "f70e2033-4168-43a6-89a6-789d7deb8029",
       "listName": "asd",
       "isEditing": false,
       "cards": []
     },
     {
-      "id": "f3df50e5-fbee-4ed3-abbf-066edecdfbf1",
-      "listName": "asdasd",
+      "id": "e96f6c26-c357-4fc0-bbde-78363cd0f9a1",
+      "listName": "xasd",
       "isEditing": false,
       "cards": []
+    }
+  ],
+  "users": [
+    {
+      "password": "123",
+      "username": "karolis",
+      "email": "skarolis99@gmail.com",
+      "id": 1
     },
     {
-      "id": "f7c581c3-deb8-4fe3-ad1a-7702e8655a30",
-      "listName": "asdasd",
-      "isEditing": false,
-      "cards": []
+      "password": "asd",
+      "username": "asd",
+      "email": "asd@gmail.com",
+      "id": 2
     },
     {
-      "id": "68ab01ce-f240-48d6-8b29-40d22c98697d",
-      "listName": "123",
+      "password": "123",
+      "username": "123",
+      "email": "123@gmail.com",
+      "id": 3
+    },
+    {
+      "password": "ddd",
+      "username": "ddd",
+      "email": "ddd@gmail.com",
+      "id": 4
+    }
+  ],
+  "dashboards": [
+    {
+      "dashboardName": "asdasxas",
       "isEditing": false,
-      "cards": [
+      "lists": [],
+      "owner": "123",
+      "members": [],
+      "id": 1
+    },
+    {
+      "dashboardName": "sadasd",
+      "isEditing": false,
+      "lists": [],
+      "owner": "123",
+      "members": [],
+      "id": 2
+    },
+    {
+      "dashboardName": "123",
+      "isEditing": false,
+      "lists": [
         {
-          "id": "70acfa21-572d-4289-b701-1b2a8a2a3759",
-          "cardName": "123",
-          "isEditing": false
+          "id": "88d41915-84c6-43ea-ab2d-18eef9403d7f",
+          "listName": "xasd",
+          "isEditing": false,
+          "cards": []
         },
         {
-          "id": "40b0797b-09bc-4dd3-8b24-6ddbdc0125b7",
-          "cardName": "zxc",
-          "isEditing": false
-        },
-        {
-          "id": "c7a81d49-7a0b-432a-a211-929226dea134",
-          "cardName": "test",
-          "isEditing": false
+          "id": "2bbc5cf4-777b-4543-b037-0418e4f62b0c",
+          "listName": "12321",
+          "isEditing": false,
+          "cards": []
         }
-      ]
+      ],
+      "owner": "asd",
+      "members": [],
+      "id": 4
     },
     {
-      "id": "62db9b17-0fe7-4329-b18f-0763244983a6",
-      "listName": "asdasdasd",
+      "dashboardName": "axasd",
       "isEditing": false,
-      "cards": []
+      "lists": [
+        {
+          "id": "50799fc8-bdd3-4784-882a-78cebae93671",
+          "listName": "xd",
+          "isEditing": false,
+          "cards": [
+            {
+              "id": "7e63c293-3f0b-4125-8da8-16fa368a036f",
+              "cardName": "123xas",
+              "isEditing": false
+            }
+          ]
+        },
+        {
+          "id": "1979f7bb-b2b6-4054-8553-0454d8a470b9",
+          "listName": "2131",
+          "isEditing": false,
+          "cards": [
+            {
+              "id": "29b5a3f7-e8e4-423c-b773-75f12808a23c",
+              "cardName": "x123",
+              "isEditing": false
+            },
+            {
+              "id": "64fbd316-06cd-4995-90a6-07c5f83efff4",
+              "cardName": "xsadsadxasd12",
+              "isEditing": false
+            }
+          ]
+        }
+      ],
+      "owner": "asd",
+      "members": [],
+      "id": 5
     },
     {
-      "id": "0bf175dc-fa78-480d-a344-bcd0f6f53afc",
-      "listName": "warawrar",
+      "dashboardName": "xasd123",
       "isEditing": false,
-      "cards": []
-    },
-    {
-      "id": "436c18a4-dcec-4fb5-9685-3ed4dc067f85",
-      "listName": "asdasd",
-      "isEditing": false,
-      "cards": []
+      "lists": [
+        {
+          "id": "b9adf3d3-9755-419d-a57a-950b16c7d814",
+          "listName": "xasd123",
+          "isEditing": false,
+          "cards": [
+            {
+              "id": "945584fc-2517-4091-9f6b-126cba373977",
+              "cardName": "war34234",
+              "isEditing": false
+            }
+          ]
+        },
+        {
+          "id": "fce9934c-4c58-4c65-a62c-70355777b6bb",
+          "listName": "123asxasd454",
+          "isEditing": false,
+          "cards": [
+            {
+              "id": "1f330bbc-3150-415f-bfd3-74a45a3aafd7",
+              "cardName": "dsrsrsdr",
+              "isEditing": false
+            },
+            {
+              "id": "5be1d428-6b74-4804-910e-e0780fb84304",
+              "cardName": "jhjjhj",
+              "isEditing": false
+            },
+            {
+              "id": "34ade8c7-300b-4aaa-8e63-705611cbef3d",
+              "cardName": "sadsad",
+              "isEditing": false
+            },
+            {
+              "id": "4d7ed06c-dd77-40c2-b161-61bdc29ac921",
+              "cardName": "xeareearer",
+              "isEditing": false
+            },
+            {
+              "id": "e7de8bcd-c128-4af6-9bb8-73d7241edb86",
+              "cardName": "123sdadsa",
+              "isEditing": false
+            },
+            {
+              "id": "8cd672d3-238f-428e-8108-b71f2ff226a5",
+              "cardName": "asdasdxa",
+              "isEditing": false
+            }
+          ]
+        }
+      ],
+      "owner": "ddd",
+      "members": [],
+      "id": 6
     }
   ]
 }

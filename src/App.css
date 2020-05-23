@@ -122,28 +122,5 @@ table {
   border-spacing: 0;
 }
 body {
-  background-image: url('./assets/images/bg-image.jpg');
-  background-color: #cccccc;
-  background-size: cover;
-  background-position: 50%;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  height: 100vh;
-  width: auto;
-}
-.flex {
-  display: flex;
-  width: auto;
-  height: 100%;
-  position: relative;
-}
-.wrapper {
-  width: 272px;
-  height: 100px;
-  box-sizing: border-box;
-  display: inline-block;
-  vertical-align: top;
-  margin: 10px 0px 0px 10px;
-  border-radius: 5px;
-  word-wrap: break-word;
+  background-color: #fafbfc;
 }
