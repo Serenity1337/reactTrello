@@ -21,7 +21,7 @@
     "redux": "^4.0.5"
   },
   "scripts": {
-    "start": "npm-run all --parallel start:react start:server",
+    "start": "npm-run-all --parallel start:react start:server",
     "start:react": "react-scripts start",
     "start:server": "json-server --watch db.json --port 4000",
     "build": "react-scripts build",
