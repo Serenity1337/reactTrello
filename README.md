@@ -16,6 +16,7 @@ Features:
 Let's talk about the register functionality. It looks all good, right? We type in unique information, send it to our server and we get a response back and then redirect to a log-in page, but there is a catch.
 
 Let's see what happens when we press enter
+
 ![register functionality](/public/gifs/RegisterGifs/RegisterBadRouting.gif)
 
 Since the project was using react, in fact, the project was also using react-router as well. At the time I was not really aware of a Link component, so I was still using old-fashioned anchor tag with href property, though, in some of the other pages we will see that I was actually using Link component, there will be some inconsistencies in this project with routing, but, hey, nobody is perfect :), however, we're only inserting correct details, what about if we use incorrect ones, is there any validation?
@@ -91,14 +92,19 @@ In conclusion I was using validation to check for the correct email format and w
 ---
 
 2. Login
+
    ![login functionality](/public/gifs/LoginGifs/Login.gif)
 
 I'm not gonna bore you too much with this section, because it's very similar to register.
 
 We have logout button when we're redirected to dashboards page
+
 ![login functionality](/public/gifs/LoginGifs/Logout.gif)
+
 And we also have validation
+
 ![login functionality](/public/gifs/LoginGifs/LoginValidation.gif)
+
 However I found an interesting thing in the code
 
 ```
@@ -118,20 +124,26 @@ In conclusion, to store the login information I was using JWT and stored it in l
 3. Dashboards page
 
 ![dashboard screenshot](/public/images/DashboardImgs/dashboard.png)
+
 Here we are greeted by this beautiful dashboards page. The whole purpose of this page is to... _drum rolls_ create dashboards! I did not think through this page that much, because it does not even have delete, edit or move dashboards around functionalities, just create them.
 
 ![dashboard screenshot](/public/gifs/DashBoardsGifs/dashboard.gif)
 
 Here I was using a button which opens up a modal. A few good things and a few bad things. I liked the fact I used opacity to make the background more blur and transparent, so we can still see what's happening in the background, while focusing more on the modal. Moving on to a few mistakes I've made. Firstly, I don't like that the modal is not centered and it is very small. Those are small things, but user experience is key in every application. Small things matter a lot.
 Secondly, when we press enter
+
 ![dashboard screenshot](/public/gifs/DashBoardsGifs/ModalOnSUbmit.gif)
+
 the modal does not disappear, which can be annoying for users.
 
 Thirdly, what happens if we create duplicate boards?
+
 ![dashboard screenshot](/public/gifs/DashBoardsGifs/dashDuplicates.gif)
+
 Oh no...
 
 Lastly, what if.. we create a lot of dashboards? Will it wrap?
+
 ![dashboard screenshot](/public/gifs/DashBoardsGifs/workingAsIntended.gif)
 
 Ah yes working as intended!:)
