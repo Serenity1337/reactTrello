@@ -15,13 +15,12 @@ Features:
 
 Let's talk about the register functionality. It looks all good, right? We type in unique information, send it to our server and we get a response back and then redirect to a log-in page, but there is a catch.
 
+Let's see what happens when we press enter
 ![register functionality](/public/gifs/RegisterGifs/RegisterBadRouting.gif)
 
-See what happens when we press enter?
+Since the project was using react, in fact, the project was also using react-router as well. At the time I was not really aware of a Link component, so I was still using old-fashioned anchor tag with href property, though, in some of the other pages we will see that I was actually using Link component, there will be some inconsistencies in this project with routing, but, hey, nobody is perfect :), however, we're only inserting correct details, what about if we use incorrect ones, is there any validation?
 
 ![register functionality](/public/gifs/RegisterGifs/RegisterValidation.gif)
-
-Since the project was using react, in fact, the project was also using react-router as well. At the time I was not really aware of a Link component, so I was still using old-fashioned anchor tag with href property, though, in some of the other pages we will see that I was actually using Link component, there will be some inconsistencies in this project with routing, but, hey, nobody is perfect :), however, we're only inserting correct details, what about if we use incorrect ones, is there any validation?
 
 Oh. There is. So what is actually going on? Well, I was using a simple div
 
