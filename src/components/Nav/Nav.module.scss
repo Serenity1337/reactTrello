@@ -1,0 +1,28 @@
+.flex {
+  display: flex;
+  height: 40px;
+  background-color: #026aa7;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000000;
+  width: 100vw;
+}
+.logOut {
+  background-color: #3588b9;
+  margin: 5px 5px;
+  text-align: center;
+  padding: 5px 15px 0px 15px;
+  color: #ffffff;
+  cursor: pointer;
+}
+.userName {
+  margin: 5px 5px;
+  color: #ffffff;
+}
+.logo {
+  cursor: pointer;
+  width: 130px;
+  height: 40px;
+}

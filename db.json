@@ -1,54 +1,129 @@
 {
-  "lists": [
+  "lists": [],
+  "users": [
     {
-      "id": "f073813a-9bb2-43a5-ac21-2999c7f40d77",
-      "listName": "123",
-      "isEditing": false,
-      "cards": [
-        {
-          "id": "40b0797b-09bc-4dd3-8b24-6ddbdc0125b7",
-          "cardName": "zxc",
-          "isEditing": false
-        },
-        {
-          "id": "c7a81d49-7a0b-432a-a211-929226dea134",
-          "cardName": "test",
-          "isEditing": false
-        },
-        {
-          "id": "70acfa21-572d-4289-b701-1b2a8a2a3759",
-          "cardName": "123",
-          "isEditing": false
-        }
-      ]
+      "password": "123",
+      "username": "karolis",
+      "email": "skarolis99@gmail.com",
+      "id": 1
     },
     {
-      "id": "f3df50e5-fbee-4ed3-abbf-066edecdfbf1",
-      "listName": "testas",
-      "isEditing": false,
-      "cards": [
-        {
-          "id": "c0e033e1-4ac9-4031-937c-438edfa99e50",
-          "cardName": "tkj34",
-          "isEditing": false
-        },
-        {
-          "id": "0173f251-164b-4bc8-aa33-da094f34f062",
-          "cardName": "13zx",
-          "isEditing": false
-        },
-        {
-          "id": "8f253d5a-a815-4dcf-ba34-f0901456c389",
-          "cardName": "loasdl",
-          "isEditing": false
-        }
-      ]
+      "password": "asd",
+      "username": "asd",
+      "email": "asd@gmail.com",
+      "id": 2
     },
     {
-      "id": "f7c581c3-deb8-4fe3-ad1a-7702e8655a30",
-      "listName": "asd",
+      "password": "123",
+      "username": "123",
+      "email": "123@gmail.com",
+      "id": 3
+    },
+    {
+      "password": "ddd",
+      "username": "ddd",
+      "email": "ddd@gmail.com",
+      "id": 4
+    },
+    {
+      "password": "asd",
+      "username": "asd",
+      "email": "asd@gmail.com",
+      "id": 5
+    },
+    {
+      "password": "test123",
+      "username": "test",
+      "email": "test@gmail.com",
+      "id": 6
+    }
+  ],
+  "dashboards": [
+    {
+      "dashboardName": "asdasd",
       "isEditing": false,
-      "cards": []
+      "lists": [
+        {
+          "id": "78614c96-ec07-446f-b6ab-ac0a597d6bd3",
+          "listName": "asdad",
+          "isEditing": false,
+          "cards": [
+            {
+              "id": "990ef018-fe41-4530-b359-49bf93f1690a",
+              "cardName": "asdasd",
+              "isEditing": false
+            },
+            {
+              "id": "f5f7803c-fe32-48d6-8532-2ce2ba389202",
+              "cardName": "a",
+              "isEditing": false
+            }
+          ]
+        },
+        {
+          "id": "08e27999-be3b-4498-b3e5-0233a9837cbe",
+          "listName": "asdasdasd",
+          "isEditing": false,
+          "cards": []
+        },
+        {
+          "id": "0eee02ed-f64e-4edf-8ff1-1907d559a65b",
+          "listName": "karolis",
+          "isEditing": false,
+          "cards": []
+        },
+        {
+          "id": "3a5983fa-33f4-49be-ab9d-b7cee2c94979",
+          "listName": "dfdg",
+          "isEditing": false,
+          "cards": []
+        },
+        {
+          "id": "812fd305-5f31-42a4-b498-94174e446e1d",
+          "listName": "dfgdfg",
+          "isEditing": false,
+          "cards": []
+        },
+        {
+          "id": "ebcc0360-47b6-4b66-8bd3-225d23a337d0",
+          "listName": "dfgdfg",
+          "isEditing": false,
+          "cards": []
+        },
+        {
+          "id": "c968dd39-091c-4c57-bfe4-ab6e0be62728",
+          "listName": "fdgdf",
+          "isEditing": false,
+          "cards": []
+        },
+        {
+          "id": "8a65f260-1506-4a8f-9b7f-61ee81dc8c26",
+          "listName": "a",
+          "isEditing": false,
+          "cards": []
+        },
+        {
+          "id": "207940f0-2744-4809-b80c-7eadf803fd96",
+          "listName": "asd",
+          "isEditing": false,
+          "cards": []
+        },
+        {
+          "id": "4669452b-3026-4c15-88ea-2559377034f1",
+          "listName": "asda",
+          "isEditing": false,
+          "cards": []
+        },
+        {
+          "id": "431bc44b-7671-4a5e-a8af-cda32750ff22",
+          "listName": "fgf",
+          "isEditing": false,
+          "cards": []
+        }
+      ],
+      "owner": "test",
+      "members": [],
+      "id": 1
     }
   ]
 }

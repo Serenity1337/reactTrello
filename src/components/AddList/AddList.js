@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import classes from './AddList.module.scss'
+import { Dashboards } from '../../Pages/Dashboards/Dashboards'
 const { random } = require('faker')
 
-export const AddList = props => {
+export const AddList = (props) => {
   const toggleFormHandler = () => {
     props.settoggleListForm(false)
   }
@@ -10,31 +11,48 @@ export const AddList = props => {
   const [formState, setformState] = useState({})
   const [submitState, setsubmitState] = useState(false)
 
-  const inputHandler = event => {
+  const inputHandler = (event) => {
     setformState({
-      id: random.uuid(),
       listName: event.target.value,
       isEditing: false,
-      cards: []
+      cards: [],
+      _id: '',
     })
   }
 
-  const formSubmitHandler = async event => {
+  const formSubmitHandler = async (event) => {
     event.preventDefault()
     event.target.elements.listName.value = ''
-    const response = await fetch('http://localhost:4000/lists', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formState)
-    })
-    console.log(response)
-    props.setlists([...props.lists, formState])
+    if (formState.listName) {
+      const formStateCopy = { ...formState }
+      formStateCopy._id = random.uuid()
+      const dashCopy = { ...props.dash.dash }
+      const listsCopy = [...props.lists, formStateCopy]
+
+      dashCopy.lists = listsCopy
+      const response = await fetch(
+        `https://copytrelloapi.herokuapp.com/trello/trellodash/editdash/${props.dash.dash._id}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dashCopy),
+        }
+      )
+
+      setformState({
+        _id: random.uuid(),
+        listName: '',
+        isEditing: false,
+        cards: [],
+      })
+      props.setlists([...listsCopy])
+    }
   }
 
   return (
-    <form action='' className={classes.newAddress} onSubmit={formSubmitHandler}>
+    <form action='' className={classes.newList} onSubmit={formSubmitHandler}>
       <input
         className={classes.listName}
         name='listName'
