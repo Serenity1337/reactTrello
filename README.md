@@ -3,6 +3,10 @@ A glorified to-do-list application and an attempt to recreate some of the trello
 
 ---
 
+Tech stack: React, Node, Express, mongoDB, Context api, React-hooks, Scss as well as modular CSS.
+
+---
+
 Intro: Hey, welcome to my failed attempt at recreating Trello or is it? I don't think the odds are high for anyone to recreate trello pixel-perfectly, but the idea is to at least look at some key functionalities and try to understand how to re-create them.
 
 ---
