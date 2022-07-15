@@ -1,5 +1,6 @@
 .boardsContainer {
   display: flex;
+  padding-top: 50px;
   .createBoard {
     background-color: #e7e9ed;
     width: 120px;
@@ -53,7 +54,7 @@
     }
     .cancelButton {
       font-size: 20px;
-      margin: 8px 0px 0px 40px;
+      margin: 1px 0px 0px 27px;
       color: #ffffff;
     }
     .boardInput::placeholder {

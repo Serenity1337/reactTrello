@@ -1,18 +1,28 @@
-import React, { useState, useEffect, useRef, forceUpdate } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import AddList from '../../components/AddList/index'
 import AddListButton from '../../components/AddListButton/index'
 import Card from '../../components/Card/index'
+import { UserContext } from '../../UserContext'
 import classes from './Cards.module.scss'
 export const Cards = (dash, dashIndex) => {
   const [lists, setlists] = useState([])
 
+  const { user, setuser } = useContext(UserContext)
+
   const [toggleListForm, settoggleListForm] = useState(false)
 
-  const [dragListState, setdragListState] = useState(Number)
+  const [dragListState, setdragListState] = useState(null)
 
-  const [startListIndex, setstartListIndex] = useState(Number)
+  const [startListIndex, setstartListIndex] = useState(null)
 
-  const [startCardIndex, setstartCardIndex] = useState(Number)
+  const [startCardIndex, setstartCardIndex] = useState(null)
+
+  const checkIfLoggedIn = () => {
+    if (!user) {
+      window.location.href = '/login'
+    }
+  }
+  checkIfLoggedIn()
 
   const handleListDragStart = (e, listIndex) => {
     e.stopPropagation()
@@ -37,27 +47,55 @@ export const Cards = (dash, dashIndex) => {
   const handleListDrop = async (e, listIndex) => {
     e.preventDefault()
     e.stopPropagation()
+    if (
+      startListIndex === null &&
+      startCardIndex === null &&
+      lists[listIndex].length !== 0
+    ) {
+      const listsArr = [...lists]
+      const dashCopy = { ...dash.dash }
 
-    const listsArr = [...lists]
-    const dashCopy = { ...dash.dash }
+      let temp = listsArr[dragListState]
+      listsArr[dragListState] = listsArr[listIndex]
+      listsArr[listIndex] = temp
+      dashCopy.lists = listsArr
+      const response = await fetch(
+        `https://copytrelloapi.herokuapp.com/trello/trellodash/editdash/${dash.dash._id}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dashCopy),
+        }
+      )
 
-    let temp = listsArr[dragListState]
-    listsArr[dragListState] = listsArr[listIndex]
-    listsArr[listIndex] = temp
-    dashCopy.lists = listsArr
-    const response = await fetch(
-      'http://localhost:4000/dashboards/' + dashCopy.id,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dashCopy),
-      }
-    )
+      setlists(listsArr)
+    } else {
+      const dashClone = { ...dash.dash }
+      const testObj = [...lists]
 
-    console.log(response)
-    setlists(listsArr)
+      const card = testObj[startListIndex].cards[startCardIndex]
+
+      testObj[startListIndex].cards.splice(startCardIndex, 1)
+      testObj[listIndex].cards.push(card)
+
+      dashClone.lists = testObj
+      setlists(testObj)
+
+      const response = await fetch(
+        `https://copytrelloapi.herokuapp.com/trello/trellodash/editdash/${dash.dash._id}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dashClone),
+        }
+      )
+      setstartCardIndex(null)
+      setstartListIndex(null)
+    }
   }
 
   return (

@@ -1,51 +1,46 @@
-import React, { useState, useEffect } from 'react'
-import { Nav } from '../../components/Nav/Nav'
+import React, { useState, useEffect, useContext } from 'react'
 import classes from './Dashboards.module.scss'
 import { BrowserRouter, Switch, Route, Redirect, Link } from 'react-router-dom'
 import { Cards } from '../Cards/Cards'
-export const Dashboards = () => {
-  const currentUserName = JSON.parse(localStorage.getItem('user'))
+import { DashboardsContext } from '../../DashboardsContext'
+import { UserContext } from '../../UserContext'
 
+export const Dashs = () => {
   const [toggleForm, settoggleForm] = useState(false)
 
   const [formState, setformState] = useState({})
 
-  const [dashboards, setdashboards] = useState([])
+  const { dashboards, setdashboards } = useContext(DashboardsContext)
+
+  const { user, setuser } = useContext(UserContext)
 
   const checkIfLoggedIn = () => {
-    if (!currentUserName) {
+    if (!localStorage.trellotoken) {
       window.location.href = 'http://localhost:3000/login'
     }
   }
   checkIfLoggedIn()
-
   useEffect(() => {
-    let unmounted = false
-
-    const cancelForm = (event) => {
-      if (event.keyCode === 27) {
-        settoggleForm(false)
+    fetch(
+      `https://copytrelloapi.herokuapp.com/trello/trellodash/getalldashboards`,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
       }
-    }
-    const getDashboards = async () => {
-      const response = await fetch('http://localhost:4000/dashboards')
-      const dashboards = await response.json()
-
-      const filteredDash = dashboards.filter(
-        (board) => board.owner === currentUserName
-      )
-      if (!unmounted) {
+    )
+      .then((header) => {
+        if (!header.ok) {
+          throw Error(header)
+        }
+        return header.json()
+      })
+      .then((response) => {
+        const filteredDash = response.filter(
+          (board) => board.owner === user.userName
+        )
         setdashboards(filteredDash)
-      }
-    }
-    getDashboards()
-    window.addEventListener('keydown', cancelForm)
-    return () => {
-      unmounted = true
-    }
-    return () => {
-      window.removeEventListener('keydown', cancelForm)
-    }
+      })
+      .catch((e) => {})
   }, [])
   const formHandler = () => {
     settoggleForm(true)
@@ -60,7 +55,7 @@ export const Dashboards = () => {
       dashboardName: event.target.value,
       isEditing: false,
       lists: [],
-      owner: currentUserName,
+      owner: user.userName,
       members: [],
     })
   }
@@ -68,23 +63,23 @@ export const Dashboards = () => {
   const dashboardHandler = async (event) => {
     event.preventDefault()
     event.target.elements[0].value = ''
-    const response = await fetch('http://localhost:4000/dashboards', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formState),
-    })
-    console.log(response)
-    console.log(formState)
+    const response = await fetch(
+      'https://copytrelloapi.herokuapp.com/trello/trellodash/createdash',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formState),
+      }
+    )
     setdashboards([...dashboards, formState])
   }
   return (
     <div>
-      <Nav></Nav>
       <div className={classes.boardsContainer}>
         {dashboards.map((dashboard, dashboardIndex) => (
-          <Link to={`${currentUserName}/${dashboard.dashboardName}`}>
+          <Link to={`/dashboard/${dashboard.dashboardName}`}>
             <div className={classes.dashboard} key={dashboardIndex}>
               <h1 className={classes.dashTitle}>{dashboard.dashboardName}</h1>
             </div>
@@ -115,7 +110,9 @@ export const Dashboards = () => {
                   x
                 </div>
               </div>
-              <div className={classes.createBtn}>Create Board</div>
+              <button type='submit' className={classes.createBtn}>
+                Create Board
+              </button>
             </form>
           </div>
         ) : null}

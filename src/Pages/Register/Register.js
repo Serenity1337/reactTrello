@@ -1,126 +1,56 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import logo from '../../utils/images/logo.svg'
 import classes from './Register.module.scss'
+import { UserContext } from '../../UserContext'
 
 export const Register = () => {
-  const [emailState, setemailState] = useState('')
-  const [nameState, setnameState] = useState('')
-  const [passwordState, setpasswordState] = useState('')
-  const [rpasswordState, setrpasswordState] = useState('')
-  const [users, setusers] = useState([])
-  const [nameErrorState, setnameErrorstate] = useState(false)
-  const [emailErrorstate, setemailErrorstate] = useState(false)
+  const [profile, setprofile] = useState({})
+  const [error, seterror] = useState('')
+  const { user, setuser } = useContext(UserContext)
 
-  useEffect(() => {
-    fetch('http://localhost:4000/users', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((header) => {
-        if (!header.ok) {
-          throw Error(header)
-        }
-        return header.json()
-      })
-      .then((response) => {
-        console.log(response)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
-  }, [])
-
-  const emailInputHandler = (event) => {
-    setemailState(event.target.value)
+  if (localStorage.trellotoken) {
+    window.location.href = `/`
   }
-  const nameInputHandler = (event) => {
-    setnameState(event.target.value)
+  const inputHandlers = (event) => {
+    setprofile({ ...profile, [event.target.name]: event.target.value })
   }
-  const passwordInputHandler = (event) => {
-    setpasswordState(event.target.value)
-  }
-  const rpasswordInputHandler = (event) => {
-    setrpasswordState(event.target.value)
-  }
-  const userSubmitHandler = async (event) => {
+  const userSubmitHandler = (event) => {
     event.preventDefault()
-    Array.prototype.forEach.call(event.target.elements, (element) => {
-      element.value = ''
-    })
-    if (passwordState === rpasswordState) {
-      const userData = {
-        userNames: [],
-        userEmails: [],
-      }
-      users.map((user) => {
-        userData.userNames.push(user.name)
-        userData.userEmails.push(user.email)
-      })
-      console.log(userData)
-      const dupeName = userData.userNames.includes(nameState)
-      const dupeEmail = userData.userEmails.includes(emailState)
-
-      if (dupeName) {
-        setnameErrorstate(true)
-        if (dupeEmail) {
-          setemailErrorstate(true)
-        }
-      } else {
-        setnameErrorstate(false)
-        if (dupeEmail) {
-          setemailErrorstate(true)
-        } else {
-          setemailErrorstate(false)
-          // const response = await fetch(
-          //   'http://localhost:3000/trello/user/register',
-          //   {
-          //     method: 'POST',
-          //     headers: {
-          //       'Content-Type': 'application/json',
-          //     },
-          //     body: JSON.stringify({
-          //       email: emailState,
-          //       name: nameState,
-          //       password: passwordState,
-          //     }),
-          //   }
-          // )
-
-          let body = {
-            password: passwordState,
-            username: nameState,
-            email: emailState,
-          }
-          fetch('http://localhost:4000/users', {
+    const copyProfile = { ...profile }
+    delete copyProfile.rpassword
+    if (
+      profile.userName &&
+      profile.email &&
+      profile.password &&
+      profile.rpassword
+    ) {
+      if (profile.password === profile.rpassword) {
+        fetch(
+          'https://copytrelloapi.herokuapp.com/trello/trellouser/register',
+          {
             method: 'POST',
-            body: JSON.stringify(body),
+            body: JSON.stringify(copyProfile),
             headers: {
               'Content-Type': 'application/json',
             },
+          }
+        )
+          .then((header) => {
+            return header.json()
           })
-            .then((header) => {
-              console.log(header)
-              if (header.ok) {
-                return header.json()
-              } else {
-                alert('Registration failed')
-              }
-            })
-            .then((response) => {
-              if (response) {
-                // alert('Registration successful')
-
-                window.location.href = 'http://localhost:3000/login'
-              }
-            })
-            .catch((e) => {
-              console.log(e)
-            })
-        }
-        // console.log(response)
+          .then((response) => {
+            if (response.error) {
+              seterror(response.msg)
+            } else {
+              window.location.href = `/login`
+            }
+          })
+          .catch((e) => {})
+      } else {
+        seterror('Wrong repeated password')
       }
+    } else {
+      seterror('Please fill the empty fields.')
     }
   }
   return (
@@ -136,43 +66,32 @@ export const Register = () => {
             <input
               type='email'
               placeholder='Enter email address'
-              onInput={emailInputHandler}
+              onInput={inputHandlers}
+              name='email'
             />
-            {emailErrorstate ? (
-              <span className={classes.error}>
-                This email address is already taken
-              </span>
-            ) : (
-              <span></span>
-            )}
             <input
               type='text'
-              placeholder='Enter full name'
-              onInput={nameInputHandler}
+              placeholder='Enter username'
+              onInput={inputHandlers}
+              name='userName'
             />
-            {nameErrorState ? (
-              <span className={classes.error}>
-                This Username is already taken
-              </span>
-            ) : (
-              <span></span>
-            )}
             <input
               type='password'
               placeholder='Create password'
-              onInput={passwordInputHandler}
+              onInput={inputHandlers}
+              name='password'
             />
             <input
               type='password'
               placeholder='Repeat password'
-              onInput={rpasswordInputHandler}
+              onInput={inputHandlers}
+              name='rpassword'
             />
             <button type='submit' className={classes.signBtn}>
               Sign up
             </button>
-            <a href='http://localhost:3000/login'>
-              Already have an account? Click to log-in
-            </a>
+            <a href='/login'>Already have an account? Click to log-in</a>
+            {error ? <div className={classes.error}>{error}</div> : null}
           </div>
         </form>
       </div>

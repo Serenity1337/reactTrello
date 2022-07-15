@@ -10,7 +10,6 @@ let registerUser = (req, res) => {
   user.username = data.username
   user.password = data.password
   user.email = data.email
-  console.log(data.username)
   user
     .save()
     .then((createdUser) => {

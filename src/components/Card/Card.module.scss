@@ -12,6 +12,14 @@
     font-size: 14px;
     font-weight: 600;
     padding: 15px 15px 0px 20px;
+    display: flex;
+    justify-content: space-between;
+    div {
+      i {
+        margin: 0px 1.5px;
+        cursor: pointer;
+      }
+    }
     // .faEdit {
     //   cursor: pointer;
     //   // margin-right: 10px;
@@ -31,8 +39,7 @@
     background-color: #ffffff;
     border-radius: 5px;
     // height: 30px;
-    padding-top: 10px;
-    padding: 10px 0px 0px 10px;
+    padding: 5px 0px 5px 5px;
     word-wrap: break-word;
     overflow-wrap: break-word;
     // .faEdit {
@@ -43,6 +50,7 @@
     // .faEdit:hover {
     //   background-color: #dadbe2;
     // }
+
     .doCard {
       font-size: 14px;
       font-weight: 600;
@@ -50,6 +58,13 @@
       margin: 5px;
       word-wrap: break-word;
       overflow-wrap: break-word;
+      display: flex;
+      justify-content: space-between;
+      div {
+        i {
+          cursor: pointer;
+        }
+      }
       // height: auto;
     }
   }

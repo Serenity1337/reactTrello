@@ -13,32 +13,42 @@ export const AddList = (props) => {
 
   const inputHandler = (event) => {
     setformState({
-      id: random.uuid(),
       listName: event.target.value,
       isEditing: false,
       cards: [],
+      _id: '',
     })
   }
 
   const formSubmitHandler = async (event) => {
     event.preventDefault()
     event.target.elements.listName.value = ''
-    const dashCopy = { ...props.dash.dash }
-    dashCopy.lists.push(formState)
-    console.log(dashCopy)
-    const response = await fetch(
-      `http://localhost:4000/dashboards/` + props.dash.dash.id,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dashCopy),
-      }
-    )
-    console.log(response)
+    if (formState.listName) {
+      const formStateCopy = { ...formState }
+      formStateCopy._id = random.uuid()
+      const dashCopy = { ...props.dash.dash }
+      const listsCopy = [...props.lists, formStateCopy]
 
-    props.setlists([...dashCopy.lists])
+      dashCopy.lists = listsCopy
+      const response = await fetch(
+        `https://copytrelloapi.herokuapp.com/trello/trellodash/editdash/${props.dash.dash._id}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dashCopy),
+        }
+      )
+
+      setformState({
+        _id: random.uuid(),
+        listName: '',
+        isEditing: false,
+        cards: [],
+      })
+      props.setlists([...listsCopy])
+    }
   }
 
   return (

@@ -46,37 +46,32 @@ export const Card = (props) => {
   }
 
   const handleDrop = async (e, index) => {
-    e.preventDefault()
     e.stopPropagation()
     const dashClone = { ...props.dash.dash }
     const testObj = [...props.lists]
-    const listObj = { ...props.list }
 
     const card = testObj[props.startListIndex].cards[props.startCardIndex]
 
     testObj[props.startListIndex].cards.splice(props.startCardIndex, 1)
     testObj[props.listIndex].cards.splice(index, 0, card)
-    console.log(testObj)
 
     dashClone.lists = testObj
     props.setlists(testObj)
 
     const response = await fetch(
-      'http://localhost:4000/dashboards/' + props.dash.dash.id,
+      `https://copytrelloapi.herokuapp.com/trello/trellodash/editdash/${props.dash.dash._id}`,
       {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(dashClone),
       }
     )
-    console.log(response)
   }
 
   const delCard = async (card) => {
     const dashClone = { ...props.dash.dash }
-    console.log(dashClone)
     const listObj = { ...props.list }
     const cardsArr = listObj.cards.filter(
       (cardEntry) => cardEntry.id !== card.id
@@ -84,20 +79,18 @@ export const Card = (props) => {
     listObj.cards = cardsArr
     dashClone.lists[props.listIndex] = listObj
     const response = await fetch(
-      'http://localhost:4000/dashboards/' + props.dash.dash.id,
+      `https://copytrelloapi.herokuapp.com/trello/trellodash/editdash/${props.dash.dash._id}`,
       {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(dashClone),
       }
     )
-    console.log(response)
     const testObj = [...props.lists]
 
     testObj[props.listIndex].cards = cardsArr
-    console.log(testObj)
     props.setlists(testObj)
   }
 
@@ -105,20 +98,20 @@ export const Card = (props) => {
     const dashCopy = { ...props.dash.dash }
     const listsCopy = [...props.lists]
     const listsArr = listsCopy.filter(
-      (listEntry) => props.list.id !== listEntry.id
+      (listEntry) => props.list._id !== listEntry._id
     )
     dashCopy.lists = listsArr
     const response = await fetch(
-      'http://localhost:4000/dashboards/' + props.dash.dash.id,
+      `https://copytrelloapi.herokuapp.com/trello/trellodash/editdash/${props.dash.dash._id}`,
       {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(dashCopy),
       }
     )
-    console.log(response)
+
     props.setlists(listsArr)
   }
 
@@ -129,26 +122,27 @@ export const Card = (props) => {
 
   const formSubmitHandler = async (event, card, index) => {
     event.preventDefault()
-    const dashClone = { ...props.dash.dash }
+    if (cardEditState.length > 0) {
+      const dashClone = { ...props.dash.dash }
 
-    const listClone = { ...props.list }
-    const cardsClone = [...listClone.cards]
-    cardsClone[index].cardName = cardEditState
-    cardsClone[index].isEditing = false
-    listClone.cards = cardsClone
-    dashClone.lists[props.listIndex] = listClone
-    const response = await fetch(
-      'http://localhost:4000/dashboards/' + props.dash.dash.id,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dashClone),
-      }
-    )
-    console.log(response)
-    setisCardEditing(false)
+      const listClone = { ...props.list }
+      const cardsClone = [...listClone.cards]
+      cardsClone[index].cardName = cardEditState
+      cardsClone[index].isEditing = false
+      listClone.cards = cardsClone
+      dashClone.lists[props.listIndex] = listClone
+      const response = await fetch(
+        `https://copytrelloapi.herokuapp.com/trello/trellodash/editdash/${props.dash.dash._id}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dashClone),
+        }
+      )
+      setisCardEditing(false)
+    }
   }
 
   const inputHandler = (event) => {
@@ -170,37 +164,39 @@ export const Card = (props) => {
   }
   const formListSubmitHandler = async (event) => {
     event.preventDefault()
-    const dashCopy = { ...props.dash.dash }
+    if (listInput.length > 0) {
+      const dashCopy = { ...props.dash.dash }
 
-    dashCopy.lists[props.listIndex].listName = listInput
-    dashCopy.lists[props.listIndex].isEditing = false
-    const response = await fetch(
-      'http://localhost:4000/dashboards/' + props.dash.dash.id,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dashCopy),
-      }
-    )
-    console.log(response)
-    setisListEditing(false)
-    const listClone = { ...props.list }
-    listClone.listName = listInput
-    listClone.isEditing = false
-    const listsClone = [...props.lists]
-    listsClone[props.listIndex] = listClone
-    console.log(listsClone)
-    props.setlists(listsClone)
+      dashCopy.lists[props.listIndex].listName = listInput
+      dashCopy.lists[props.listIndex].isEditing = false
+      const response = await fetch(
+        `https://copytrelloapi.herokuapp.com/trello/trellodash/editdash/${props.dash.dash._id}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dashCopy),
+        }
+      )
+      setisListEditing(false)
+      const listClone = { ...props.list }
+      listClone.listName = listInput
+      listClone.isEditing = false
+      const listsClone = [...props.lists]
+      listsClone[props.listIndex] = listClone
+      props.setlists(listsClone)
+    }
   }
   return (
     <div className={classes.card} draggable>
       {!props.list.isEditing ? (
         <h1>
           {props.list.listName}
-          <i className='fas fa-edit' onClick={toggleListEdit}></i>
-          <i className='fas fa-times' onClick={listDel}></i>
+          <div>
+            <i className='fas fa-edit' onClick={toggleListEdit}></i>
+            <i className='fas fa-times' onClick={listDel}></i>
+          </div>
         </h1>
       ) : (
         <form action='' onSubmit={(event) => formListSubmitHandler(event)}>
@@ -208,7 +204,7 @@ export const Card = (props) => {
             className={classes.listName}
             name='listName'
             type='text'
-            placeholder='enter new card name'
+            placeholder='enter new list name'
             onInput={inputListHandler}
             defaultValue={props.list.listName}
           />
@@ -230,10 +226,12 @@ export const Card = (props) => {
             <div className={classes.doCard}>
               {' '}
               {card.cardName}{' '}
-              <i className='fas fa-edit' onClick={() => toggleEdit(card)}></i>
-              <i className='fas fa-trash' onClick={() => delCard(card)}>
-                {' '}
-              </i>
+              <div>
+                <i className='fas fa-edit' onClick={() => toggleEdit(card)}></i>
+                <i className='fas fa-trash' onClick={() => delCard(card)}>
+                  {' '}
+                </i>
+              </div>
             </div>
           </div>
         ) : (
@@ -253,7 +251,7 @@ export const Card = (props) => {
             />
             <div className={classes.flexContainer}>
               <button type='submit' className={classes.submitBtn}>
-                Add List
+                Submit
               </button>
               <div
                 className={classes.cancelBtn}

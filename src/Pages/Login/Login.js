@@ -1,55 +1,46 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import logo from '../../utils/images/logo.svg'
 import classes from './Login.module.scss'
+import { Redirect } from 'react-router-dom'
+import { UserContext } from '../../UserContext'
 
 export const Login = () => {
   const [emailState, setemailState] = useState('')
-  const [passwordErrorState, setpasswordErrorState] = useState(false)
-  const [users, setusers] = useState([])
-  const [emailErrorstate, setemailErrorstate] = useState(false)
+  const { user, setuser } = useContext(UserContext)
+  const [error, seterror] = useState('')
   const [passwordState, setpasswordState] = useState('')
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch('http://localhost:4000/users')
-      const users = await response.json()
-      setusers(users)
-    }
-    fetchUsers()
-    console.log(users)
-  }, [])
-
+  if (localStorage.trellotoken) {
+    window.location.href = `/`
+  }
   const emailInputHandler = (event) => {
     setemailState(event.target.value)
   }
   const passwordInputHandler = (event) => {
     setpasswordState(event.target.value)
   }
-  const userLoginHandler = async (event) => {
+  //
+  const userLoginHandler = (event) => {
     event.preventDefault()
-    users.map((user) => {
-      if (user.email === emailState) {
-        setemailErrorstate(false)
-        if (user.password === passwordState) {
-          setpasswordErrorState(false)
-
-          localStorage.setItem('user', JSON.stringify(user.username))
-          window.location.href = `http://localhost:3000/${user.username}`
-          // JSON.parse(localStorage.getItem('komentarai'));
-        } else {
-          setpasswordErrorState(true)
-        }
-      } else {
-        setemailErrorstate(true)
-      }
+    fetch('https://copytrelloapi.herokuapp.com/trello/trellouser/login', {
+      method: 'POST',
+      body: JSON.stringify({ email: emailState, password: passwordState }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
-    console.log(users)
-
-    //  const userExists = userData.emails.includes(emailState)
-    //  const passwordIsCorrect = userData.password.includes(passwordState)
-    //  if (userExists && passwordIsCorrect) {
-
-    //  }
+      .then((header) => {
+        return header.json()
+      })
+      .then((response) => {
+        if (response.error) {
+          seterror('Email or password is incorrect')
+        } else {
+          localStorage.setItem('trellotoken', JSON.stringify(response))
+          window.location.href = `/`
+        }
+      })
+      .catch((e) => {})
   }
   return (
     <div>
@@ -66,34 +57,21 @@ export const Login = () => {
               placeholder='Enter email address'
               onInput={emailInputHandler}
             />
-            {emailErrorstate ? (
-              <span className={classes.error}>
-                Incorrect email or this email does not exist.
-              </span>
-            ) : (
-              <span></span>
-            )}
             <input
               type='password'
               placeholder='Create password'
               onInput={passwordInputHandler}
             />
-            {passwordErrorState ? (
-              <span className={classes.error}>
-                Incorrect password please check spelling
-              </span>
-            ) : (
-              <span></span>
-            )}
+
             <button type='submit' className={classes.signBtn}>
               Log in
             </button>
-            <a href='http://localhost:3000/register'>
-              Don't have an account? Sign up here
-            </a>
+            <a href='/register'>Don't have an account? Sign up here</a>
+            {error ? <div className={classes.error}> {error} </div> : null}
           </div>
         </form>
       </div>
+      {/* {user ? <Redirect to='/' /> : null} */}
     </div>
   )
 }
